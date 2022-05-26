@@ -31,7 +31,7 @@ class Workout(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     title = db.Column(db.String, nullable=False, unique=False)
     weight = db.Column(db.String, nullable=False, unique=False)
-    reps = db.Column(db.Integer, nullable=False, unique=False)
+    reps = db.Column(db.String, nullable=False, unique=False)
     muscle = db.Column(db.String, nullable=False, unique=False)
 
     def __init__(self, user_id, title, weight, reps, muscle):
