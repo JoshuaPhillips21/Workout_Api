@@ -8,7 +8,7 @@ import os
 app = Flask(__name__)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-app.congif["SQLALCHEMY_TRACK_MODIFICATION"] = False
+app.config["SQLALCHEMY_TRACK_MODIFICATION"] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'app.sqlite')
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
@@ -81,7 +81,9 @@ def add_user():
 
 @app.route('/user/authenticate', methods=["POST"])
 def authenticate_user():
+    print(request.get_json(), 'TEST LOG IN')
     if request.content_type != 'application/json':
+        print(request.get_json(), 'TEST LOG IN')
         return jsonify('Error: Data must be json')
     
     post_data = request.get_json()
@@ -94,8 +96,8 @@ def authenticate_user():
         return jsonify('User NOT verified')
     if bcrypt.check_password_hash(user.password, password) == False:
         return jsonify('Password NOT verified')
-
-    return jsonify('User has been verified')
+    print(request.get_json(), 'TEST LOG IN')
+    return jsonify(user_schema.dump(user))
 
 
 @app.route('/users', methods=["GET"])
