@@ -8,6 +8,7 @@ import os
 app = Flask(__name__)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
+app.congif["SQLALCHEMY_TRACK_MODIFICATION"] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'app.sqlite')
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
@@ -60,8 +61,7 @@ multiple_user_schema = UserSchema(many=True)
 
 @app.route('/user/add', methods=['POST'])
 def add_user(): 
-    if request.content_type != 'application/json':
-        return jsonify('Error: Data must be json')
+    print(request.get_json(), 'TEST')
 
     post_data = request.get_json()
     username = post_data.get('username')
