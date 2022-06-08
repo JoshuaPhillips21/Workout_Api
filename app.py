@@ -110,7 +110,7 @@ def get_user(id):
     user = User.query.get(id)
     return user_schema.jsonify(user)
 
-@app.route('/user/<id>', methods=["DELETE"])
+@app.route('/delete/user/<id>', methods=["DELETE"])
 def user_delete(id):
     user = User.query.get(id)
     db.session.delete(user)
@@ -145,6 +145,12 @@ def get_workouts():
     all_workouts = db.session.query(Workout).all()
 
     return jsonify(multiple_workout_schema.dump(all_workouts))
+
+@app.route('/workout/get/user/<user_id>', methods=["GET"])
+def user_workouts(user_id):
+    workouts = db.session.query(Workout).filter(Workout.user_id == user_id).all()
+    print(workouts, 'ANOTHER TEST BY TERRY!')
+    return jsonify(multiple_workout_schema.dump(workouts))
 
 @app.route('/workout/delete/<id>', methods=["DELETE"])
 def delete_workout(id):
